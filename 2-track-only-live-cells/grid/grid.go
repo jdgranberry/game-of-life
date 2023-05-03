@@ -17,9 +17,12 @@ func NewGrid(seed []Coord, length int) *Grid {
 func (g *Grid) liveNeighbors(c Coord) int {
 	var result int
 
-	for i, _ := range g.liveCells {
-		for j := -1; j <= 1; j++ {
-			if i != 0 && j != 0 && g.isAlive(Coord{c.x + i, c.y + j}) {
+	for i := -1; i < 2; i++ {
+		for j := -1; j < 2; j++ {
+			if g.isAlive(Coord{c.x + i, c.y + j}) {
+				if i == 0 && j == 0 {
+					continue
+				}
 				result++
 			}
 		}
@@ -29,8 +32,8 @@ func (g *Grid) liveNeighbors(c Coord) int {
 }
 
 func (g *Grid) isAlive(c Coord) bool {
-	for i, _ := range g.liveCells {
-		if g.liveCells[i] == c {
+	for _, l := range g.liveCells {
+		if l == c {
 			return true
 		}
 	}
