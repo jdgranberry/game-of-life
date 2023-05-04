@@ -88,7 +88,7 @@ func TestGrid_Tick(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			g := &Grid{
-				length:    5,
+				Length:    5,
 				liveCells: tt.fields.liveCells,
 			}
 			g.Tick()
@@ -143,11 +143,11 @@ func TestGrid_isAlive(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			g := &Grid{
-				length:    tt.fields.length,
+				Length:    tt.fields.length,
 				liveCells: tt.fields.liveCells,
 			}
-			if got := g.isAlive(tt.args.c); got != tt.want {
-				t.Errorf("isAlive() = %v, want %v", got, tt.want)
+			if got := g.IsAlive(tt.args.c); got != tt.want {
+				t.Errorf("IsAlive() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -236,7 +236,7 @@ func TestGrid_liveNeighbors(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			g := &Grid{
-				length:    5,
+				Length:    5,
 				liveCells: tt.fields.liveCells,
 			}
 			if got := g.liveNeighbors(tt.args.c); got != tt.want {
@@ -399,7 +399,7 @@ func TestGrid_willLive(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			g := &Grid{
-				length:    tt.fields.length,
+				Length:    tt.fields.length,
 				liveCells: tt.fields.liveCells,
 			}
 			if got := g.willLive(tt.args.c); got != tt.want {
@@ -428,7 +428,7 @@ func TestNewGrid(t *testing.T) {
 				length: 10,
 			},
 			want: &Grid{
-				length:    10,
+				Length:    10,
 				liveCells: expectedSeed,
 			},
 		},
