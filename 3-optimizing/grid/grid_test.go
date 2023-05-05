@@ -248,7 +248,6 @@ func TestGrid_liveNeighbors(t *testing.T) {
 
 func TestGrid_willLive(t *testing.T) {
 	type fields struct {
-		length    int
 		liveCells []Coord
 	}
 	type args struct {
@@ -399,7 +398,7 @@ func TestGrid_willLive(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			g := &Grid{
-				Length:    tt.fields.length,
+				Length:    5,
 				liveCells: sliceToMap(tt.fields.liveCells),
 			}
 			if got := g.willLive(tt.args.c); got != tt.want {

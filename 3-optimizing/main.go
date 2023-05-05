@@ -16,7 +16,12 @@ const (
 func main() {
 	fmt.Println("hello world!")
 
-	g := grid.NewGrid([]grid.Coord{{1, 2}, {2, 3}, {3, 1}, {3, 2}, {3, 3}}, gridSize)
+	g := grid.NewGrid(map[grid.Coord]bool{
+		{1, 2}: true,
+		{2, 3}: true,
+		{3, 1}: true,
+		{3, 2}: true,
+		{3, 3}: true}, gridSize)
 
 	for i := 0; i < ticks; i++ {
 		fmt.Println(output.GetDisplayGrid(g))

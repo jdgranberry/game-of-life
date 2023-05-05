@@ -14,25 +14,37 @@ func NewGrid(seed map[Coord]bool, length int) *Grid {
 	return &Grid{Length: length, liveCells: seed}
 }
 
+func (g *Grid) IsAlive(c Coord) bool {
+	return g.liveCells[c]
+}
+
 func (g *Grid) liveNeighbors(c Coord) int {
 	var result int
+	neighbors := g.allNeighbors(c)
 
-	for i := -1; i < 2; i++ {
-		for j := -1; j < 2; j++ {
-			if g.IsAlive(Coord{c.X + i, c.Y + j}) {
-				if i == 0 && j == 0 {
-					continue
-				}
-				result++
-			}
+	for _, n := range neighbors {
+		if g.IsAlive(n) {
+			result++
 		}
 	}
 
 	return result
 }
 
-func (g *Grid) IsAlive(c Coord) bool {
-	return g.liveCells[c]
+func (g *Grid) allNeighbors(c Coord) []Coord {
+	var result []Coord
+
+	for i := -1; i < 2; i++ {
+		for j := -1; j < 2; j++ {
+			newX := c.X + i
+			newY := c.Y + j
+			if !(newX < 0 || newX >= g.Length || newY < 0 || newY >= g.Length || (i == 0 && j == 0)) {
+				result = append(result, Coord{newX, newY})
+			}
+		}
+	}
+
+	return result
 }
 
 func (g *Grid) willLive(c Coord) bool {
@@ -48,12 +60,19 @@ func (g *Grid) willLive(c Coord) bool {
 
 func (g *Grid) Tick() {
 	var nextLiveCoords = make(map[Coord]bool)
+	coordsToCheck := make(map[Coord]bool)
+	for k, _ := range g.liveCells {
+		coordsToCheck[k] = true
+		neighbors := g.allNeighbors(k)
+		for _, n := range neighbors {
+			coordsToCheck[n] = true
+		}
+	}
 
-	for i := 0; i < g.Length; i++ {
-		for j := 0; j < g.Length; j++ {
-			if g.willLive(Coord{i, j}) {
-				nextLiveCoords[Coord{i, j}] = true
-			}
+	// TODO in a sparse map, we can optimize this by only checking cells neighboring live cells
+	for k, _ := range coordsToCheck {
+		if g.willLive(k) {
+			nextLiveCoords[k] = true
 		}
 	}
 

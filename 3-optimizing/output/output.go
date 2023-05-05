@@ -3,7 +3,6 @@ package output
 import grid "game-of-life-golang/grid"
 
 const (
-	//deadCell = "░"
 	deadCell = "◦"
 	liveCell = "▓"
 )
